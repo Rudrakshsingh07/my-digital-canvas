@@ -1,0 +1,358 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Mughal-inspired design system - warm ivory, deep indigo, terracotta, sage */
+
+@layer base {
+  :root {
+    --background: 42 35% 96%;
+    --foreground: 220 30% 15%;
+
+    --card: 42 30% 93%;
+    --card-foreground: 220 30% 15%;
+
+    --popover: 42 35% 96%;
+    --popover-foreground: 220 30% 15%;
+
+    --primary: 220 45% 25%;
+    --primary-foreground: 42 35% 96%;
+
+    --secondary: 42 25% 88%;
+    --secondary-foreground: 220 30% 20%;
+
+    --muted: 42 20% 85%;
+    --muted-foreground: 220 15% 40%;
+
+    --accent: 12 65% 50%;
+    --accent-foreground: 42 35% 96%;
+
+    --terracotta: 12 65% 50%;
+    --indigo: 220 45% 25%;
+    --sage: 140 25% 45%;
+    --gold: 38 75% 55%;
+    --coral: 8 70% 60%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 42 20% 80%;
+    --input: 42 20% 80%;
+    --ring: 12 65% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --font-heading: 'Playfair Display', Georgia, serif;
+    --font-body: 'Space Grotesk', system-ui, sans-serif;
+    
+    /* Refined shadows */
+    --shadow-soft: 0 4px 30px -6px hsl(220 30% 15% / 0.08);
+    --shadow-card: 0 8px 40px -12px hsl(220 30% 15% / 0.12);
+    --shadow-glow: 0 0 60px -12px hsl(12 65% 50% / 0.3);
+    
+    /* Animation tokens */
+    --transition-smooth: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-fast: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    --transition-spring: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 220 25% 8%;
+    --foreground: 42 25% 92%;
+
+    --card: 220 22% 12%;
+    --card-foreground: 42 25% 92%;
+
+    --popover: 220 25% 8%;
+    --popover-foreground: 42 25% 92%;
+
+    --primary: 42 25% 92%;
+    --primary-foreground: 220 25% 8%;
+
+    --secondary: 220 18% 18%;
+    --secondary-foreground: 42 20% 85%;
+
+    --muted: 220 15% 22%;
+    --muted-foreground: 42 15% 55%;
+
+    --accent: 12 70% 55%;
+    --accent-foreground: 220 25% 8%;
+
+    --terracotta: 12 70% 55%;
+    --indigo: 220 55% 65%;
+    --sage: 140 30% 55%;
+    --gold: 38 80% 60%;
+    --coral: 8 75% 65%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 12 70% 55%;
+    
+    --sidebar-background: 240 5.9% 10%;
+    --sidebar-foreground: 240 4.8% 95.9%;
+    --sidebar-primary: 224.3 76.3% 48%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 240 3.7% 15.9%;
+    --sidebar-accent-foreground: 240 4.8% 95.9%;
+    --sidebar-border: 240 3.7% 15.9%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-heading;
+  }
+}
+
+@layer utilities {
+  .font-heading {
+    font-family: var(--font-heading);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+  }
+
+  .transition-smooth {
+    transition: var(--transition-smooth);
+  }
+
+  .transition-fast {
+    transition: var(--transition-fast);
+  }
+
+  .transition-spring {
+    transition: var(--transition-spring);
+  }
+
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  /* Parallax utilities */
+  .parallax-slow {
+    will-change: transform;
+  }
+
+  .parallax-medium {
+    will-change: transform;
+  }
+
+  .parallax-fast {
+    will-change: transform;
+  }
+
+  /* Reveal animations */
+  .animate-fade-up {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-fade-in {
+    animation: fadeIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-slide-in-left {
+    animation: slideInLeft 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-scale-in {
+    animation: scaleIn 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-rotate-in {
+    animation: rotateIn 1s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-glow {
+    animation: pulseGlow 3s ease-in-out infinite;
+  }
+
+  .animation-delay-100 { animation-delay: 0.1s; }
+  .animation-delay-200 { animation-delay: 0.2s; }
+  .animation-delay-300 { animation-delay: 0.3s; }
+  .animation-delay-400 { animation-delay: 0.4s; }
+  .animation-delay-500 { animation-delay: 0.5s; }
+  .animation-delay-600 { animation-delay: 0.6s; }
+  .animation-delay-700 { animation-delay: 0.7s; }
+  .animation-delay-800 { animation-delay: 0.8s; }
+
+  /* LED dot grid */
+  .led-grid {
+    background-image: radial-gradient(circle at center, hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+    background-size: 8px 8px;
+  }
+
+  .led-grid-dense {
+    background-image: radial-gradient(circle at center, hsl(var(--foreground) / 0.12) 1.5px, transparent 1.5px);
+    background-size: 6px 6px;
+  }
+
+  /* Decorative patterns */
+  .pattern-dots {
+    background-image: radial-gradient(hsl(var(--accent) / 0.15) 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+
+  .pattern-diagonal {
+    background-image: repeating-linear-gradient(
+      45deg,
+      hsl(var(--accent) / 0.05) 0,
+      hsl(var(--accent) / 0.05) 1px,
+      transparent 1px,
+      transparent 8px
+    );
+  }
+
+  /* Glass morphism */
+  .glass {
+    background: hsl(var(--background) / 0.8);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-dark {
+    background: hsl(var(--card) / 0.9);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes rotateIn {
+  from {
+    opacity: 0;
+    transform: rotate(-10deg) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(0) scale(1);
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-15px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.02);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+@keyframes dotPulse {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 1; }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--accent) / 0.4);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--accent) / 0.6);
+}
+
+/* Selection */
+::selection {
+  background: hsl(var(--accent) / 0.3);
+  color: hsl(var(--foreground));
+}

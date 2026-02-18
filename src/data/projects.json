@@ -1,0 +1,51 @@
+[
+  {
+    "id": "cinematic-portfolio",
+    "title": "Cinematic Portfolio Experience",
+    "type": "website",
+    "allowedDevices": ["iphone", "ipad", "macbook"],
+    "media": {
+      "iphone": {
+        "video": "/media/projects/cinematic-portfolio/iphone.mp4",
+        "poster": "/media/projects/cinematic-portfolio/iphone-poster.jpg"
+      },
+      "ipad": {
+        "video": "/media/projects/cinematic-portfolio/ipad.mp4",
+        "poster": "/media/projects/cinematic-portfolio/ipad-poster.jpg"
+      },
+      "macbook": {
+        "video": "/media/projects/cinematic-portfolio/macbook.mp4",
+        "poster": "/media/projects/cinematic-portfolio/macbook-poster.jpg"
+      }
+    }
+  },
+  {
+    "id": "ml-mobile-app",
+    "title": "On-Device ML Companion",
+    "type": "mobile",
+    "allowedDevices": ["iphone", "ipad"],
+    "media": {
+      "iphone": {
+        "video": "/media/projects/ml-mobile-app/iphone.mp4",
+        "poster": "/media/projects/ml-mobile-app/iphone-poster.jpg"
+      },
+      "ipad": {
+        "video": "/media/projects/ml-mobile-app/ipad.mp4",
+        "poster": "/media/projects/ml-mobile-app/ipad-poster.jpg"
+      }
+    }
+  },
+  {
+    "id": "python-systems",
+    "title": "Python Systems & Automations",
+    "type": "backend",
+    "allowedDevices": ["macbook"],
+    "media": {
+      "macbook": {
+        "video": "/media/projects/python-systems/macbook.mp4",
+        "poster": "/media/projects/python-systems/macbook-poster.jpg"
+      }
+    }
+  }
+]
+
