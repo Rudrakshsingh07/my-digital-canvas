@@ -32,12 +32,12 @@ const DEVICE_FRAMES: Record<DeviceType, string> = {
   macbook: macbookFrame,
 };
 
-// Screen inset percentages for each device frame image
-// These define where the video sits inside the frame image
+// Screen inset percentages for each device frame image (iPad Air, iPhone, MacBook Pro 14")
+// These define where the video sits inside the frame image to match inner screen borders
 const DEVICE_SCREEN_INSETS: Record<DeviceType, { top: string; left: string; right: string; bottom: string }> = {
-  iphone: { top: "3.8%", left: "5.5%", right: "5.5%", bottom: "3.8%" },
-  ipad: { top: "4.5%", left: "4.2%", right: "4.2%", bottom: "4.5%" },
-  macbook: { top: "4.8%", left: "11.5%", right: "11.5%", bottom: "11%" },
+  iphone: { top: "2%", left: "4.9%", right: "4.9%", bottom: "2%" },
+  ipad: { top: "19%", left: "4.2%", right: "4.2%", bottom: "19%" },
+  macbook: { top: "2.3%", left: "9.2%", right: "9.2%", bottom: "11%" },
 };
 
 const DEVICE_MAX_WIDTH: Record<DeviceType, string> = {
