@@ -4,6 +4,10 @@ import { ArrowLeft, Laptop, Smartphone, Tablet } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import projectsData from "@/data/projects.json";
 
+import iphoneFrame from "@/assets/devices/iphone.png";
+import ipadFrame from "@/assets/devices/ipad.png";
+import macbookFrame from "@/assets/devices/macbook.png";
+
 type DeviceType = "iphone" | "ipad" | "macbook";
 type ProjectType = "website" | "mobile" | "backend" | "desktop" | "python";
 
@@ -16,28 +20,30 @@ type Project = {
   media: Partial<Record<DeviceType, DeviceMedia>>;
 };
 
-const DEVICES: { key: DeviceType; label: string; Icon: typeof Laptop }[] = [
-  { key: "iphone", label: "iPhone", Icon: Smartphone },
-  { key: "ipad", label: "iPad", Icon: Tablet },
-  { key: "macbook", label: "MacBook", Icon: Laptop },
+const DEVICES: { key: DeviceType; Icon: typeof Laptop }[] = [
+  { key: "iphone", Icon: Smartphone },
+  { key: "ipad", Icon: Tablet },
+  { key: "macbook", Icon: Laptop },
 ];
 
-const DEVICE_ASPECT: Record<DeviceType, string> = {
-  iphone: "aspect-[9/19.5]",
-  ipad: "aspect-[3/4]",
-  macbook: "aspect-[16/10]",
+const DEVICE_FRAMES: Record<DeviceType, string> = {
+  iphone: iphoneFrame,
+  ipad: ipadFrame,
+  macbook: macbookFrame,
 };
 
-const DEVICE_FRAME_CLASSES: Record<DeviceType, string> = {
-  iphone: "max-w-[280px] md:max-w-[320px] rounded-[2.5rem] p-2 md:p-3",
-  ipad: "max-w-[480px] md:max-w-[560px] rounded-[1.75rem] p-3 md:p-4",
-  macbook: "max-w-[700px] md:max-w-[800px] rounded-[1rem] p-2 md:p-3",
+// Screen inset percentages for each device frame image
+// These define where the video sits inside the frame image
+const DEVICE_SCREEN_INSETS: Record<DeviceType, { top: string; left: string; right: string; bottom: string }> = {
+  iphone: { top: "3.8%", left: "5.5%", right: "5.5%", bottom: "3.8%" },
+  ipad: { top: "4.5%", left: "4.2%", right: "4.2%", bottom: "4.5%" },
+  macbook: { top: "4.8%", left: "11.5%", right: "11.5%", bottom: "11%" },
 };
 
-const DEVICE_SCREEN_RADIUS: Record<DeviceType, string> = {
-  iphone: "rounded-[2rem]",
-  ipad: "rounded-[1.25rem]",
-  macbook: "rounded-[0.5rem]",
+const DEVICE_MAX_WIDTH: Record<DeviceType, string> = {
+  iphone: "max-w-[260px] md:max-w-[300px]",
+  ipad: "max-w-[500px] md:max-w-[580px]",
+  macbook: "max-w-[700px] md:max-w-[820px]",
 };
 
 const getDefaultDevice = (p: Project): DeviceType => {
@@ -59,7 +65,6 @@ const ProjectsShowcase = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const activeProject = projects.find((p) => p.id === activeId) ?? projects[0];
 
-  // Auto-correct device when project changes
   useEffect(() => {
     if (!activeProject) return;
     if (!activeProject.allowedDevices.includes(activeDevice)) {
@@ -67,7 +72,6 @@ const ProjectsShowcase = () => {
     }
   }, [activeProject, activeDevice]);
 
-  // Swap video source
   useEffect(() => {
     if (!activeProject) return;
     const media = activeProject.media[activeDevice];
@@ -83,13 +87,10 @@ const ProjectsShowcase = () => {
     }
   }, [activeProject, activeDevice]);
 
-  const selectProject = useCallback(
-    (p: Project) => {
-      setActiveId(p.id);
-      setActiveDevice(getDefaultDevice(p));
-    },
-    []
-  );
+  const selectProject = useCallback((p: Project) => {
+    setActiveId(p.id);
+    setActiveDevice(getDefaultDevice(p));
+  }, []);
 
   const preloadProject = useCallback((p: Project) => {
     const dev = getDefaultDevice(p);
@@ -101,6 +102,7 @@ const ProjectsShowcase = () => {
   }, []);
 
   const media = activeProject?.media[activeDevice];
+  const insets = DEVICE_SCREEN_INSETS[activeDevice];
 
   return (
     <main className="min-h-screen bg-background text-foreground overflow-hidden">
@@ -131,9 +133,9 @@ const ProjectsShowcase = () => {
             Projects Studio
           </p>
 
-          {/* Device pills */}
+          {/* Device pills — icons only */}
           <div className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-card/70 backdrop-blur-sm px-1.5 py-1">
-            {DEVICES.map(({ key, label, Icon }) => {
+            {DEVICES.map(({ key, Icon }) => {
               const enabled = activeProject?.allowedDevices.includes(key) ?? false;
               const isActive = activeDevice === key;
               return (
@@ -141,16 +143,16 @@ const ProjectsShowcase = () => {
                   key={key}
                   onClick={() => enabled && setActiveDevice(key)}
                   disabled={!enabled}
-                  className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs transition-smooth ${
+                  className={`inline-flex items-center justify-center rounded-full w-8 h-8 transition-smooth ${
                     !enabled
                       ? "opacity-25 cursor-not-allowed"
                       : isActive
                       ? "bg-accent text-accent-foreground shadow-sm"
                       : "text-muted-foreground hover:bg-muted/60"
                   }`}
+                  title={key}
                 >
-                  <Icon className="w-3.5 h-3.5" />
-                  <span className="hidden md:inline">{label}</span>
+                  <Icon className="w-4 h-4" />
                 </button>
               );
             })}
@@ -217,9 +219,9 @@ const ProjectsShowcase = () => {
                               return (
                                 <span
                                   key={d}
-                                  className="text-[0.6rem] px-2 py-0.5 rounded-full border border-border/50 text-muted-foreground"
+                                  className="inline-flex items-center justify-center w-6 h-6 rounded-full border border-border/50 text-muted-foreground"
                                 >
-                                  {dev.label}
+                                  <dev.Icon className="w-3 h-3" />
                                 </span>
                               );
                             })}
@@ -261,26 +263,35 @@ const ProjectsShowcase = () => {
               {/* Glow behind device */}
               <div className="absolute w-3/4 h-3/4 rounded-full bg-accent/[0.04] blur-[80px]" />
 
-              {/* Device frame */}
+              {/* Device frame using actual images */}
               <AnimatePresence mode="wait">
                 <motion.div
                   key={activeDevice}
-                  className={`relative border border-border/50 bg-card/80 backdrop-blur-xl shadow-card mx-auto ${DEVICE_FRAME_CLASSES[activeDevice]}`}
+                  className={`relative mx-auto ${DEVICE_MAX_WIDTH[activeDevice]}`}
                   initial={{ opacity: 0, scale: 0.94, y: 12 }}
                   animate={{ opacity: 1, scale: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.96, y: -8 }}
                   transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
                 >
-                  {/* Notch for iPhone */}
-                  {activeDevice === "iphone" && (
-                    <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 rounded-full bg-background/90 z-20" />
-                  )}
+                  {/* Frame image */}
+                  <img
+                    src={DEVICE_FRAMES[activeDevice]}
+                    alt={`${activeDevice} frame`}
+                    className="relative z-10 w-full h-auto pointer-events-none select-none"
+                    draggable={false}
+                  />
 
-                  {/* Screen */}
+                  {/* Video placed behind frame, clipped to screen area */}
                   <div
-                    className={`relative ${DEVICE_SCREEN_RADIUS[activeDevice]} overflow-hidden bg-black/90 ${DEVICE_ASPECT[activeDevice]} w-full`}
+                    className="absolute z-0 overflow-hidden"
+                    style={{
+                      top: insets.top,
+                      left: insets.left,
+                      right: insets.right,
+                      bottom: insets.bottom,
+                      borderRadius: activeDevice === "iphone" ? "6%" : activeDevice === "ipad" ? "2.5%" : "1%",
+                    }}
                   >
-                    {/* Video */}
                     <video
                       ref={videoRef}
                       className="absolute inset-0 w-full h-full object-cover"
@@ -310,13 +321,6 @@ const ProjectsShowcase = () => {
                       </div>
                     )}
                   </div>
-
-                  {/* MacBook chin */}
-                  {activeDevice === "macbook" && (
-                    <div className="h-4 md:h-5 flex items-center justify-center">
-                      <div className="w-12 h-1 rounded-full bg-border/60" />
-                    </div>
-                  )}
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -331,9 +335,7 @@ const ProjectsShowcase = () => {
           transition={{ delay: 0.8 }}
         >
           <span>{activeProject?.title}</span>
-          <span>
-            {DEVICES.find((d) => d.key === activeDevice)?.label} · {activeProject?.type}
-          </span>
+          <span>{activeProject?.type}</span>
         </motion.footer>
       </div>
     </main>
