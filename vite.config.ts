@@ -7,7 +7,7 @@ async function getPlugins(mode: string) {
   if (mode === 'development') {
     try {
       const { componentTagger } = await import('lovable-tagger')
-      plugins.push(componentTagger())
+      plugins.push(componentTagger() as any)
     } catch {
       // lovable-tagger optional; dev server works without it
     }
