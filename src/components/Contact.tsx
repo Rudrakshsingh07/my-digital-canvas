@@ -1,162 +1,96 @@
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
+import { motion } from "framer-motion";
 import { Mail, Linkedin, Instagram, Github, Send } from "lucide-react";
 
 const Contact = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-
   const socialLinks = [
-    {
-      name: "Email",
-      href: "mailto:rudraksh.singh.v@gmail.com",
-      icon: Mail,
-      label: "rudraksh.singh.v@gmail.com",
-      color: "hover:border-coral hover:text-coral",
-      bgColor: "group-hover:bg-coral/10",
-    },
-    {
-      name: "LinkedIn",
-      href: "https://linkedin.com/in/rudraksh-v-singh",
-      icon: Linkedin,
-      label: "rudraksh-v-singh",
-      color: "hover:border-indigo hover:text-indigo",
-      bgColor: "group-hover:bg-indigo/10",
-    },
-    {
-      name: "GitHub",
-      href: "https://github.com/Rudrakshsingh07",
-      icon: Github,
-      label: "Rudrakshsingh07",
-      color: "hover:border-foreground hover:text-foreground",
-      bgColor: "group-hover:bg-foreground/10",
-    },
-    {
-      name: "Instagram",
-      href: "https://instagram.com/rudraksh_singh_v",
-      icon: Instagram,
-      label: "@rudraksh_singh_v",
-      color: "hover:border-accent hover:text-accent",
-      bgColor: "group-hover:bg-accent/10",
-    },
+    { name: "Email", href: "mailto:rudraksh.singh.v@gmail.com", icon: Mail, label: "rudraksh.singh.v@gmail.com", color: "coral" },
+    { name: "LinkedIn", href: "https://linkedin.com/in/rudraksh-v-singh", icon: Linkedin, label: "rudraksh-v-singh", color: "indigo" },
+    { name: "GitHub", href: "https://github.com/Rudrakshsingh07", icon: Github, label: "Rudrakshsingh07", color: "chrome" },
+    { name: "Instagram", href: "https://instagram.com/rudraksh_singh_v", icon: Instagram, label: "@rudraksh_singh_v", color: "sapphire" },
   ];
 
   return (
-    <section 
-      id="contact" 
-      ref={sectionRef}
-      className="py-24 md:py-40 px-6 md:px-12 lg:px-24 relative overflow-hidden"
-    >
-      <div className="absolute inset-0 pattern-dots opacity-20" />
+    <section id="contact" className="py-24 md:py-36 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+      <div className="absolute inset-0 pattern-precision opacity-20" />
 
-      <motion.div 
-        className="max-w-4xl mx-auto text-center relative z-10"
-        style={{ scale }}
+      <motion.div
+        className="max-w-3xl mx-auto text-center relative z-10"
       >
-        {/* Section header */}
-        <motion.div 
-          className="mb-16"
-          initial={{ opacity: 0, y: 40 }}
+        {/* Header */}
+        <motion.div
+          className="mb-14"
+          initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: false }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.7 }}
         >
-          <p className="text-sm tracking-widest uppercase text-accent mb-4 font-body">
+          <p className="text-[0.6rem] tracking-[0.35em] uppercase text-sapphire font-body mb-3">
             05 — Get in Touch
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-medium mb-6">
-            Let's <span className="text-indigo italic">Connect</span>
+          <h2 className="text-3xl md:text-4xl lg:text-6xl font-heading font-medium mb-5 text-embossed">
+            Let's <span className="text-backlit italic">Connect</span>
           </h2>
-          
+
           <motion.div
-            className="flex items-center justify-center gap-4 mb-8"
+            className="flex items-center justify-center gap-3 mb-6"
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             viewport={{ once: false }}
-            transition={{ delay: 0.3, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
           >
-            <div className="w-16 h-px bg-indigo" />
-            <div className="w-3 h-3 rounded-full bg-indigo/50" />
-            <div className="w-16 h-px bg-indigo" />
+            <div className="w-12 h-0.5 bg-indigo rounded-full" />
+            <div className="indicator-sapphire" />
+            <div className="w-12 h-0.5 bg-indigo rounded-full" />
           </motion.div>
 
-          <motion.p 
-            className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto leading-relaxed"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: false }}
-            transition={{ delay: 0.4 }}
-          >
-            Open to internship opportunities, collaborations, and conversations 
+          <p className="text-base text-muted-foreground max-w-md mx-auto leading-relaxed">
+            Open to internship opportunities, collaborations, and conversations
             about development, design, or applied AI.
-          </motion.p>
+          </p>
         </motion.div>
 
-        {/* Social links grid */}
-        <div className="grid sm:grid-cols-2 gap-4 max-w-2xl mx-auto">
+        {/* Social links — mechanical console buttons */}
+        <div className="grid sm:grid-cols-2 gap-3 max-w-xl mx-auto">
           {socialLinks.map((link, index) => (
             <motion.a
               key={index}
               href={link.href}
               target={link.name !== "Email" ? "_blank" : undefined}
               rel={link.name !== "Email" ? "noopener noreferrer" : undefined}
-              className={`group flex items-center gap-4 p-5 bg-card rounded-2xl border border-border ${link.color} transition-all duration-300 hover:shadow-card`}
-              initial={{ opacity: 0, y: 30 }}
+              className="group surface-plate rounded-md flex items-center gap-3 p-4 hover:shadow-contact transition-mechanical"
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: false }}
-              transition={{ delay: index * 0.1 }}
-              whileHover={{ y: -5, scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              transition={{ delay: index * 0.08 }}
             >
-              <motion.div 
-                className={`p-3 bg-secondary rounded-xl transition-colors ${link.bgColor}`}
-                whileHover={{ rotate: 10 }}
-              >
-                <link.icon className="w-5 h-5" />
-              </motion.div>
-              <div className="text-left flex-1">
-                <p className="text-xs text-muted-foreground mb-0.5 tracking-wide">{link.name}</p>
-                <p className="text-foreground font-medium truncate">
+              <div className="surface-recessed p-2.5 rounded-md">
+                <link.icon className="w-4 h-4 text-muted-foreground group-hover:text-sapphire transition-fast" />
+              </div>
+              <div className="text-left flex-1 min-w-0">
+                <p className="text-[0.5rem] text-muted-foreground tracking-[0.2em] uppercase font-body">{link.name}</p>
+                <p className="text-sm text-foreground/80 font-medium truncate group-hover:text-foreground transition-fast">
                   {link.label}
                 </p>
               </div>
-              <motion.div
-                className="opacity-0 group-hover:opacity-100 transition-opacity"
-                whileHover={{ x: 3 }}
-              >
-                <Send className="w-4 h-4" />
-              </motion.div>
             </motion.a>
           ))}
         </div>
 
-        {/* Decorative CTA */}
-        <motion.div 
-          className="mt-16"
+        {/* CTA — primary mechanical button */}
+        <motion.div
+          className="mt-12"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: false }}
-          transition={{ delay: 0.6 }}
+          transition={{ delay: 0.4 }}
         >
-          <motion.a
+          <a
             href="mailto:rudraksh.singh.v@gmail.com"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-accent to-coral text-white rounded-full font-medium shadow-glow hover:shadow-lg transition-all duration-300 group"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.98 }}
+            className="btn-sapphire inline-flex items-center gap-3 px-7 py-3.5 rounded-md text-xs tracking-[0.2em] uppercase font-medium"
           >
             <span>Say Hello</span>
-            <motion.div
-              animate={{ x: [0, 5, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
-            >
-              <Send className="w-4 h-4" />
-            </motion.div>
-          </motion.a>
+            <Send className="w-3.5 h-3.5" />
+          </a>
         </motion.div>
       </motion.div>
     </section>

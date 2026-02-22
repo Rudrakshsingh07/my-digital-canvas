@@ -1,46 +1,29 @@
-import { motion } from "framer-motion";
-
 const Footer = () => {
   return (
-    <footer className="relative py-12 px-6 md:px-12 lg:px-24 border-t border-border overflow-hidden">
-      <motion.div 
-        className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6 relative z-10"
-        initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: false }}
-        transition={{ duration: 0.6 }}
-      >
-        {/* Left side */}
-        <div className="flex items-center gap-4">
-          <motion.span 
-            className="text-2xl font-heading font-semibold text-accent"
-            whileHover={{ scale: 1.1 }}
-          >
-            RS
-          </motion.span>
-          <div className="w-px h-6 bg-border" />
-          <p className="text-sm text-muted-foreground">
+    <footer
+      className="relative py-8 px-6 md:px-12 lg:px-20 md:ml-14 surface-brushed texture-brushed"
+      style={{ borderTop: "1px solid hsl(var(--border))" }}
+    >
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-3">
+          <span className="text-lg font-heading font-semibold text-engraved">RS</span>
+          <div className="w-px h-4 bg-border" />
+          <p className="text-[0.6rem] text-muted-foreground tracking-[0.15em] uppercase font-body">
             © {new Date().getFullYear()} Rudraksh Singh
           </p>
         </div>
 
-        {/* Center - Status */}
-        <motion.div 
-          className="flex items-center gap-2"
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
-          <span className="text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
+          <div className="indicator-amber" style={{ width: 5, height: 5 }} />
+          <span className="text-[0.6rem] text-muted-foreground tracking-[0.15em] uppercase font-body">
             Open to opportunities
           </span>
-        </motion.div>
+        </div>
 
-        {/* Right side */}
-        <p className="text-sm text-muted-foreground">
-          Crafted with Professionalism & Precision
+        <p className="text-[0.6rem] text-muted-foreground tracking-[0.1em] font-body">
+          Precision Engineered
         </p>
-      </motion.div>
+      </div>
     </footer>
   );
 };
