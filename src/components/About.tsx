@@ -1,15 +1,7 @@
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
 
 const About = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"]
-  });
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
-
   const interests = [
     { text: "Programming & logic development", icon: "⚡" },
     { text: "Unix/Linux systems & customization", icon: "🐧" },
@@ -26,150 +18,110 @@ const About = () => {
     "Interface usability & structure",
   ];
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-        delayChildren: 0.2,
-      }
-    }
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
-  };
-
   return (
-    <section 
-      id="about" 
-      ref={sectionRef}
-      className="py-24 md:py-40 px-6 md:px-12 lg:px-24 relative overflow-hidden"
-    >
-      {/* Background pattern */}
-      <div className="absolute inset-0 pattern-dots opacity-30" />
+    <section id="about" className="py-24 md:py-36 px-6 md:px-12 lg:px-20 relative overflow-hidden">
+      {/* Precision dot grid background */}
+      <div className="absolute inset-0 pattern-precision opacity-30" />
 
-      <motion.div 
-        className="max-w-6xl mx-auto relative z-10"
-        style={{ opacity }}
-      >
-        {/* Section header */}
-        <motion.div 
-          className="mb-16 md:mb-24"
-          initial={{ opacity: 0, x: -50 }}
+      <div className="max-w-5xl mx-auto relative z-10">
+        {/* Section header — engraved plaque */}
+        <motion.div
+          className="mb-14 md:mb-20"
+          initial={{ opacity: 0, x: -40 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: false }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.7 }}
         >
-          <motion.p 
-            className="text-sm tracking-widest uppercase text-accent mb-4 font-body"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: false }}
-            transition={{ delay: 0.2 }}
-          >
+          <p className="text-[0.6rem] tracking-[0.35em] uppercase text-sapphire font-body mb-3">
             01 — Introduction
-          </motion.p>
-          <h2 className="text-4xl md:text-5xl lg:text-7xl font-heading font-medium">
-            About <span className="text-accent italic">Me</span>
+          </p>
+          <h2 className="text-3xl md:text-4xl lg:text-6xl font-heading font-medium text-embossed">
+            About <span className="text-backlit italic">Me</span>
           </h2>
-          
-          {/* Decorative underline */}
           <motion.div
-            className="mt-6 flex items-center gap-4"
-            initial={{ scaleX: 0, opacity: 0 }}
-            whileInView={{ scaleX: 1, opacity: 1 }}
+            className="mt-5 flex items-center gap-3"
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
             viewport={{ once: false }}
-            transition={{ delay: 0.4, duration: 0.8 }}
+            transition={{ delay: 0.3, duration: 0.6 }}
+            style={{ transformOrigin: "left" }}
           >
-            <div className="w-20 h-px bg-accent" />
-            <div className="w-3 h-3 rounded-full bg-accent/50" />
-            <div className="w-1.5 h-1.5 rounded-full bg-accent/30" />
+            <div className="w-14 h-0.5 bg-sapphire rounded-full" style={{ boxShadow: "0 0 6px hsl(var(--sapphire) / 0.3)" }} />
+            <div className="indicator-sapphire" />
           </motion.div>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 lg:gap-24">
-          {/* Main description */}
-          <motion.div 
-            className="space-y-6"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
+        <div className="grid md:grid-cols-2 gap-10 lg:gap-16">
+          {/* Main description — printed surface */}
+          <motion.div
+            className="space-y-5"
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
+            transition={{ duration: 0.6 }}
           >
-            <motion.p 
-              className="text-lg md:text-xl leading-relaxed text-foreground/80"
-              variants={itemVariants}
-            >
-              I am a Computer Engineering diploma student exploring multiple domains 
-              including <span className="text-accent font-medium">programming</span>, 
-              <span className="text-sage font-medium"> Unix systems</span>, 
-              <span className="text-gold font-medium"> UI/UX design</span>, and product-focused 
+            <p className="text-base md:text-lg leading-relaxed text-foreground/75">
+              I am a Computer Engineering diploma student exploring multiple domains
+              including <span className="text-sapphire font-medium">programming</span>,
+              <span className="text-sage font-medium"> Unix systems</span>,
+              <span className="text-amber font-medium"> UI/UX design</span>, and product-focused
               application development.
-            </motion.p>
-            
-            <motion.p 
-              className="text-lg leading-relaxed text-foreground/80"
-              variants={itemVariants}
-            >
-              I prefer working across related disciplines simultaneously, allowing me 
+            </p>
+            <p className="text-base leading-relaxed text-foreground/75">
+              I prefer working across related disciplines simultaneously, allowing me
               to switch context when blocked and return with clearer perspective.
-            </motion.p>
-            
-            <motion.p 
-              className="text-lg leading-relaxed text-foreground/80"
-              variants={itemVariants}
-            >
-              My primary interest lies in designing usable interfaces, building 
-              user-facing products, and solving real end-user problems—with a growing 
+            </p>
+            <p className="text-base leading-relaxed text-foreground/75">
+              My primary interest lies in designing usable interfaces, building
+              user-facing products, and solving real end-user problems—with a growing
               curiosity toward systems-level understanding.
-            </motion.p>
+            </p>
 
-            {/* Work style card */}
-            <motion.div 
-              className="pt-8 mt-8 border-t border-border/50 relative"
-              variants={itemVariants}
+            {/* Work style — recessed instrument panel */}
+            <motion.div
+              className="surface-recessed rounded-md p-5 mt-6"
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: false }}
+              transition={{ delay: 0.3 }}
             >
-              <div className="absolute -top-3 left-0 px-3 py-1 bg-background text-xs tracking-widest uppercase text-muted-foreground">
+              <p className="text-[0.55rem] tracking-[0.25em] uppercase text-muted-foreground mb-3 font-body">
                 How I Work
-              </div>
-              <p className="text-foreground/70 leading-relaxed mt-4">
-                Exploratory and experimental. I learn through reverse engineering, 
-                trial-and-error, documentation, and AI-assisted exploration. 
-                I prefer <span className="text-accent">CLI over GUI</span> for clarity 
-                and maintainability, and thrive in team environments for diverse perspectives.
+              </p>
+              <p className="text-foreground/70 text-sm leading-relaxed">
+                Exploratory and experimental. I learn through reverse engineering,
+                trial-and-error, documentation, and AI-assisted exploration.
+                I prefer <span className="text-sapphire">CLI over GUI</span> for clarity
+                and maintainability.
               </p>
             </motion.div>
           </motion.div>
 
           {/* Interests & Exploring */}
-          <motion.div 
-            className="space-y-12"
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: false }}
-          >
-            <motion.div variants={itemVariants}>
-              <h3 className="text-xl font-heading font-medium mb-6 flex items-center gap-3">
-                <span className="w-10 h-px bg-gradient-to-r from-accent to-transparent" />
+          <div className="space-y-10">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+            >
+              <h3 className="text-lg font-heading font-medium mb-5 flex items-center gap-3 text-embossed">
+                <div className="w-8 h-0.5 bg-sapphire/50 rounded-full" />
                 Areas of Interest
               </h3>
-              <ul className="grid gap-3">
+              <ul className="grid gap-2">
                 {interests.map((interest, index) => (
-                  <motion.li 
+                  <motion.li
                     key={index}
-                    className="flex items-center gap-4 group p-3 rounded-lg hover:bg-card/50 transition-smooth"
-                    initial={{ opacity: 0, x: 20 }}
+                    className="flex items-center gap-3 group p-2.5 rounded-md surface-raised hover:shadow-contact transition-mechanical cursor-default"
+                    whileHover={{ x: 4 }}
+                    initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: false }}
-                    transition={{ delay: index * 0.1 }}
-                    whileHover={{ x: 10 }}
+                    transition={{ delay: index * 0.08 }}
                   >
-                    <span className="text-xl group-hover:scale-125 transition-spring">{interest.icon}</span>
-                    <span className="text-foreground/80 group-hover:text-foreground transition-smooth">
+                    <span className="text-lg">{interest.icon}</span>
+                    <span className="text-sm text-foreground/75 group-hover:text-foreground transition-fast">
                       {interest.text}
                     </span>
                   </motion.li>
@@ -177,33 +129,36 @@ const About = () => {
               </ul>
             </motion.div>
 
-            <motion.div variants={itemVariants}>
-              <h3 className="text-xl font-heading font-medium mb-6 flex items-center gap-3">
-                <span className="w-10 h-px bg-gradient-to-r from-sage to-transparent" />
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: false }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <h3 className="text-lg font-heading font-medium mb-5 flex items-center gap-3 text-embossed">
+                <div className="w-8 h-0.5 bg-sage/50 rounded-full" />
                 Currently Exploring
               </h3>
-              <ul className="space-y-3">
+              <ul className="space-y-2.5">
                 {currentlyExploring.map((item, index) => (
-                  <motion.li 
+                  <motion.li
                     key={index}
-                    className="text-foreground/80 flex items-center gap-4 group"
-                    initial={{ opacity: 0, x: 20 }}
+                    className="text-sm text-foreground/75 flex items-center gap-3 group"
+                    whileHover={{ x: 4 }}
+                    initial={{ opacity: 0, x: 16 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: false }}
-                    transition={{ delay: 0.3 + index * 0.1 }}
+                    transition={{ delay: 0.3 + index * 0.08 }}
                   >
-                    <motion.span 
-                      className="w-2 h-2 rounded-full bg-sage/60 group-hover:bg-sage group-hover:scale-150 transition-smooth"
-                      whileHover={{ rotate: 180 }}
-                    />
-                    <span className="group-hover:text-foreground transition-smooth">{item}</span>
+                    <div className="indicator-sapphire-dim group-hover:indicator-sapphire transition-fast" />
+                    <span className="group-hover:text-foreground transition-fast">{item}</span>
                   </motion.li>
                 ))}
               </ul>
             </motion.div>
-          </motion.div>
+          </div>
         </div>
-      </motion.div>
+      </div>
     </section>
   );
 };

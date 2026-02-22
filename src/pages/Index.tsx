@@ -1,4 +1,4 @@
-import Navigation from "@/components/Navigation";
+import SideMap from "@/components/SideMap";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
 import Skills from "@/components/Skills";
@@ -10,8 +10,8 @@ import Footer from "@/components/Footer";
 const Index = () => {
   return (
     <>
-      <Navigation />
-      <main>
+      <SideMap />
+      <main className="md:ml-14 pb-14 md:pb-0">
         <Hero />
         <About />
         <Skills />

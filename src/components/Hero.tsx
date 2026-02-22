@@ -1,8 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from "react";
 import profileImage from "@/assets/profile.png";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
-// Lazy load the 3D scene — not in initial bundle
 const HeroScene = lazy(() => import("@/components/three/HeroScene"));
 
 const ROLES = [
@@ -19,15 +18,13 @@ const Hero = () => {
   const { scrollY } = useScroll();
 
   const opacity = useTransform(scrollY, [0, 500], [1, 0]);
-  const y1 = useTransform(scrollY, [0, 500], [0, -80]);
-  const scale = useTransform(scrollY, [0, 500], [1, 0.92]);
+  const y1 = useTransform(scrollY, [0, 500], [0, -60]);
 
   useEffect(() => {
     setMounted(true);
     setPrefersReduced(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
   }, []);
 
-  // Cycle roles
   useEffect(() => {
     if (prefersReduced) return;
     const interval = setInterval(() => {
@@ -40,30 +37,27 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden" aria-label="Hero introduction">
-      {/* 3D Background — lazy loaded, hidden in reduced motion */}
+      {/* 3D Background — lazy */}
       {!prefersReduced && (
         <Suspense fallback={null}>
           <HeroScene />
         </Suspense>
       )}
 
-      {/* Fallback ambient for reduced motion / no 3D */}
-      <div className="absolute inset-0 -z-20">
-        <div className="absolute inset-0 led-grid opacity-30" />
-        <div className="absolute -right-20 top-1/4 w-[400px] h-[400px] rounded-full bg-accent/[0.06] blur-[100px]" />
-        <div className="absolute -left-32 bottom-1/4 w-[350px] h-[350px] rounded-full bg-indigo/[0.05] blur-[80px]" />
-      </div>
+      {/* Brushed metal ambient texture */}
+      <div className="absolute inset-0 -z-20 texture-brushed" />
+      <div className="absolute inset-0 -z-20 pattern-precision opacity-40" />
 
       <motion.div
-        className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-24"
-        style={{ opacity, y: y1, scale }}
+        className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-20"
+        style={{ opacity, y: y1 }}
       >
-        <div className="flex flex-col lg:flex-row items-center gap-16 lg:gap-24">
-          {/* Text composition — left side, asymmetric */}
+        <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          {/* Text composition */}
           <div className="flex-1 flex flex-col items-start order-2 lg:order-1 max-w-2xl">
-            {/* Eyebrow */}
+            {/* Eyebrow — engraved label */}
             <motion.p
-              className="text-xs tracking-[0.4em] uppercase text-muted-foreground mb-6 font-body"
+              className="text-[0.65rem] tracking-[0.4em] uppercase text-engraved mb-6 font-body"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
@@ -71,159 +65,156 @@ const Hero = () => {
               Portfolio — 2025
             </motion.p>
 
-            {/* Name — sculptural typography */}
+            {/* Name — embossed into surface */}
             <motion.h1
-              className="font-heading text-6xl md:text-7xl lg:text-[5.5rem] xl:text-[6.5rem] leading-[0.95] tracking-tight mb-2"
-              initial={{ opacity: 0, y: 40 }}
+              className="font-heading text-5xl md:text-6xl lg:text-[5rem] xl:text-[6rem] leading-[0.95] tracking-tight mb-2"
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
             >
-              <span className="block text-foreground">Rudraksh</span>
-              <span className="block text-accent italic font-medium">Singh</span>
+              <span className="block text-embossed">Rudraksh</span>
+              <span className="block text-backlit font-medium italic">Singh</span>
             </motion.h1>
 
-            {/* Animated role */}
+            {/* Role display — recessed instrument window */}
             <motion.div
-              className="h-8 overflow-hidden mb-8 mt-4"
+              className="surface-recessed rounded-md px-4 py-2.5 mb-8 mt-4 min-w-[220px]"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
             >
-              <motion.p
-                key={roleIndex}
-                className="text-lg md:text-xl text-muted-foreground font-body tracking-wide"
-                initial={{ y: 30, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -30, opacity: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                {ROLES[roleIndex]}
-              </motion.p>
+              <p className="text-[0.55rem] tracking-[0.25em] uppercase text-muted-foreground mb-1 font-body">
+                Current Role
+              </p>
+              <AnimatePresence mode="wait">
+                <motion.p
+                  key={roleIndex}
+                  className="text-sm md:text-base text-sapphire font-body font-medium"
+                  initial={{ y: 12, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -12, opacity: 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {ROLES[roleIndex]}
+                </motion.p>
+              </AnimatePresence>
             </motion.div>
 
-            {/* Decorative separator — asymmetric */}
+            {/* Machined separator */}
             <motion.div
-              className="flex items-center gap-3 mb-8"
+              className="flex items-center gap-3 mb-6"
               initial={{ scaleX: 0, opacity: 0 }}
               animate={{ scaleX: 1, opacity: 1 }}
-              transition={{ delay: 0.8, duration: 0.6 }}
+              transition={{ delay: 0.8, duration: 0.5 }}
               style={{ transformOrigin: "left" }}
             >
-              <div className="w-16 h-px bg-accent" />
-              <div className="w-2 h-2 rounded-full bg-accent/40" />
-              <div className="w-32 h-px bg-border" />
+              <div className="w-12 h-0.5 bg-sapphire rounded-full" style={{ boxShadow: "0 0 6px hsl(var(--sapphire) / 0.3)" }} />
+              <div className="indicator-sapphire-dim" />
+              <div className="w-24 h-px bg-border" />
             </motion.div>
 
-            {/* Intro text */}
+            {/* Intro — printed on surface */}
             <motion.p
-              className="text-lg md:text-xl text-foreground/70 leading-relaxed max-w-lg"
-              initial={{ opacity: 0, y: 20 }}
+              className="text-base md:text-lg text-foreground/70 leading-relaxed max-w-lg"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1, duration: 0.7 }}
+              transition={{ delay: 1, duration: 0.6 }}
             >
               Exploring the intersection of{" "}
-              <span className="text-accent font-medium">product development</span>,{" "}
+              <span className="text-sapphire font-medium">product development</span>,{" "}
               <span className="text-sage font-medium">UI/UX design</span>, and{" "}
-              <span className="text-gold font-medium">applied AI systems</span>.
+              <span className="text-amber font-medium">applied AI systems</span>.
             </motion.p>
 
-            {/* CTAs */}
+            {/* CTAs — mechanical buttons */}
             <motion.div
-              className="flex items-center gap-6 mt-10"
-              initial={{ opacity: 0, y: 20 }}
+              className="flex items-center gap-4 mt-8"
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.3, duration: 0.6 }}
+              transition={{ delay: 1.2, duration: 0.5 }}
             >
               <a
                 href="#projects"
-                className="group inline-flex items-center gap-3 px-7 py-3.5 rounded-full bg-accent text-accent-foreground text-sm tracking-[0.15em] uppercase font-medium hover:shadow-glow transition-all duration-500"
+                className="btn-sapphire inline-flex items-center gap-3 px-6 py-3 rounded-md text-xs tracking-[0.2em] uppercase font-medium"
               >
                 <span>View Work</span>
-                <motion.span
-                  className="inline-block"
-                  animate={{ x: [0, 4, 0] }}
-                  transition={{ duration: 2, repeat: Infinity }}
-                >
-                  →
-                </motion.span>
+                <span>→</span>
               </a>
               <a
                 href="#contact"
-                className="text-sm tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground transition-colors border-b border-transparent hover:border-foreground/30 pb-0.5"
+                className="btn-mechanical inline-flex items-center px-5 py-3 rounded-md text-xs tracking-[0.15em] uppercase text-muted-foreground hover:text-foreground"
               >
                 Get in touch
               </a>
             </motion.div>
           </div>
 
-          {/* Profile composition — right side */}
+          {/* Profile — machined watch-case frame */}
           <motion.div
             className="relative order-1 lg:order-2 flex-shrink-0"
-            initial={{ opacity: 0, scale: 0.85 }}
+            initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.4, duration: 1, ease: "easeOut" }}
+            transition={{ delay: 0.4, duration: 0.8 }}
           >
-            <div className="relative w-56 h-56 md:w-72 md:h-72 lg:w-80 lg:h-80">
-              {/* Decorative rings */}
-              <motion.div
-                className="absolute -inset-6 rounded-full border border-accent/15"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.6, duration: 0.8 }}
+            <div className="relative w-48 h-48 md:w-64 md:h-64 lg:w-72 lg:h-72">
+              {/* Machined bezel */}
+              <div
+                className="absolute -inset-3 rounded-full"
+                style={{
+                  background: "linear-gradient(var(--light-angle), hsl(var(--card)), hsl(var(--background)))",
+                  boxShadow: "var(--shadow-plate)",
+                  border: "1px solid hsl(var(--border))",
+                }}
               />
-              <motion.div
-                className="absolute -inset-12 rounded-full border border-border/20"
-                initial={{ scale: 0, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                transition={{ delay: 0.8, duration: 0.8 }}
+              {/* Inner channel */}
+              <div
+                className="absolute -inset-1 rounded-full"
+                style={{
+                  boxShadow: "var(--shadow-recessed)",
+                  border: "1px solid hsl(var(--border))",
+                }}
               />
-
-              {/* Glow */}
-              <div className="absolute inset-0 rounded-full bg-accent/10 blur-3xl" />
-
               {/* Image */}
-              <motion.div
-                className="relative w-full h-full rounded-full overflow-hidden border-2 border-accent/20 shadow-glow"
-                initial={{ scale: 0 }}
-                animate={{ scale: 1 }}
-                transition={{ delay: 0.8, duration: 0.6, type: "spring" }}
-              >
+              <div className="relative w-full h-full rounded-full overflow-hidden border border-border">
                 <img
                   src={profileImage}
                   alt="Rudraksh Singh"
                   className="w-full h-full object-cover"
                   loading="eager"
                 />
-              </motion.div>
+              </div>
 
-              {/* Floating label */}
+              {/* Status indicator — amber jewel */}
               <motion.div
-                className="absolute -bottom-4 -right-4 px-4 py-2 bg-card/90 backdrop-blur-sm rounded-full border border-border/50 shadow-soft"
-                initial={{ opacity: 0, y: 10 }}
+                className="absolute -bottom-2 -right-2 surface-raised px-3 py-1.5 rounded-md flex items-center gap-2"
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.2 }}
+                transition={{ delay: 1.4 }}
               >
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-sage animate-pulse" />
-                  <span className="text-xs text-muted-foreground tracking-wider">Open to work</span>
-                </div>
+                <div className="indicator-amber" style={{ width: 6, height: 6 }} />
+                <span className="text-[0.55rem] tracking-[0.2em] uppercase text-muted-foreground font-body">
+                  Available
+                </span>
               </motion.div>
             </div>
           </motion.div>
         </div>
       </motion.div>
 
-      {/* Scroll indicator */}
+      {/* Scroll indicator — engraved groove */}
       <motion.div
-        className="absolute bottom-10 left-1/2 -translate-x-1/2"
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2 }}
         style={{ opacity }}
       >
         <motion.div
-          className="w-px h-16 bg-gradient-to-b from-transparent via-accent/40 to-accent"
-          animate={{ scaleY: [1, 0.6, 1] }}
+          className="w-px h-12 rounded-full"
+          style={{
+            background: "linear-gradient(180deg, transparent, hsl(var(--sapphire) / 0.4), hsl(var(--sapphire)))",
+          }}
+          animate={{ scaleY: [1, 0.5, 1] }}
           transition={{ duration: 2.5, repeat: Infinity }}
         />
       </motion.div>
